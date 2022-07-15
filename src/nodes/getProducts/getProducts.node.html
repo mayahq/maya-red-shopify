@@ -1,0 +1,166 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("get-products", {
+        category: "Shopify",
+        color: "#95BF47",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            ShopifyAuth: {
+                value: "",
+                type: "shopify-auth"
+            },
+            productIdtoDelete: {
+                value: ""
+            },
+            payloadTypeproductIdtoDelete: {
+                value: "str"
+            },
+            productId: {
+                value: ""
+            },
+            payloadTypeproductId: {
+                value: "str"
+            },
+            action: {
+                value: "getAllProducts"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Products"
+        },
+        paletteLabel: "Products",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeproductIdtoDelete === null) {
+                if (this.productIdtoDelete === "") {
+                    this.payloadTypeproductIdtoDelete = "date"
+                } else {
+                    this.payloadTypeproductIdtoDelete = "str"
+                }
+            } else if (this.payloadTypeproductIdtoDelete === 'string' || this.payloadTypeproductIdtoDelete === 'none') {
+                this.payloadTypeproductIdtoDelete = "str"
+            }
+
+            $("#node-input-payloadTypeproductIdtoDelete").val(this.payloadTypeproductIdtoDelete)
+            $("#node-input-productIdtoDelete").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeproductIdtoDelete"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-productIdtoDelete").typedInput("type", this.payloadTypeproductIdtoDelete)
+
+            if (this.payloadTypeproductId === null) {
+                if (this.productId === "") {
+                    this.payloadTypeproductId = "date"
+                } else {
+                    this.payloadTypeproductId = "str"
+                }
+            } else if (this.payloadTypeproductId === 'string' || this.payloadTypeproductId === 'none') {
+                this.payloadTypeproductId = "str"
+            }
+
+            $("#node-input-payloadTypeproductId").val(this.payloadTypeproductId)
+            $("#node-input-productId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeproductId"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-productId").typedInput("type", this.payloadTypeproductId)
+
+
+            const actionFieldSetNames = ["getAllProducts", "deleteProduct", "getById"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="get-products">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-ShopifyAuth">ShopifyAuth</label>
+        <input type="text" id="node-input-ShopifyAuth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-getAllProducts" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-deleteProduct" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-productIdtoDelete">productIdtoDelete</label>
+            <input type="text" id="node-input-productIdtoDelete"></input>
+            <input type="hidden" id="node-input-payloadTypeproductIdtoDelete">
+        </div>
+    </div>
+
+    <div id="fieldset-getById" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-productId">productId</label>
+            <input type="text" id="node-input-productId"></input>
+            <input type="hidden" id="node-input-payloadTypeproductId">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="get-products">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

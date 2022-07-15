@@ -1,0 +1,53 @@
+{
+  "name": "maya-red-shopify",
+  "version": "1.0.0",
+  "description": "Shopify module for maya",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mayahq/mayadev/issues"
+  },
+  "homepage": "#readme",
+  "dependencies": {
+    "@mayahq/module-sdk": "^2.0.9",
+    "@shopify/shopify-api": "^4.0.0",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "http": "^0.0.1-security",
+    "node-pre-gyp": "^0.17.0",
+    "raw-body": "^2.5.1"
+  },
+  "nodepath": "src/nodes",
+  "nodeRedModuleName": "shopify",
+  "node-red": {
+    "nodes": {
+      "get-orders": "src/nodes/getOrders/getOrders.node.js",
+      "shopify-auth": "src/nodes/shopifyAuth/shopifyAuth.node.js",
+      "inventory": "src/nodes/inventory/inventory.node.js",
+      "get-products": "src/nodes/getProducts/getProducts.node.js",
+      "get-customers": "src/nodes/getCustomers/getCustomers.node.js",
+      "payments": "src/nodes/payments/payments.node.js",
+      "webhook": "src/nodes/webhook/webhook.node.js"
+    }
+  },
+  "mayaDetails": {
+    "name": "shopify",
+    "version": "1.0.0",
+    "description": "Shopify module for maya",
+    "author": "",
+    "type": "git",
+    "needsUserProfile": false,
+    "thumbnail": "",
+    "repository": {
+      "type": "git",
+      "url": "git+.git"
+    }
+  }
+}

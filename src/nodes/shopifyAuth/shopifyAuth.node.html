@@ -1,0 +1,103 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("shopify-auth", {
+        category: "config",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            shopUrl: {
+                value: "vatsals1.myshopify.com"
+            },
+            payloadTypeshopUrl: {
+                value: "str"
+            },
+        },
+        credentials: {
+            accessToken: {
+                type: String
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "shopify-auth"
+        },
+        paletteLabel: "shopify-auth",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeshopUrl === null) {
+                if (this.shopUrl === "") {
+                    this.payloadTypeshopUrl = "date"
+                } else {
+                    this.payloadTypeshopUrl = "str"
+                }
+            } else if (this.payloadTypeshopUrl === 'string' || this.payloadTypeshopUrl === 'none') {
+                this.payloadTypeshopUrl = "str"
+            }
+
+            $("#node-config-input-payloadTypeshopUrl").val(this.payloadTypeshopUrl)
+            $("#node-config-input-shopUrl").typedInput({
+                default: "str",
+                typeField: $("#node-config-input-payloadTypeshopUrl"),
+                types: ["msg", "str"]
+            })
+            $("#node-config-input-shopUrl").typedInput("type", this.payloadTypeshopUrl)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="shopify-auth">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-shopUrl">shopUrl</label>
+        <input type="text" id="node-config-input-shopUrl"></input>
+        <input type="hidden" id="node-config-input-payloadTypeshopUrl">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-accessToken">accessToken</label>
+        <input type="password" id="node-config-input-accessToken"></input>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="shopify-auth">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

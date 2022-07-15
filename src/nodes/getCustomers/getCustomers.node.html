@@ -1,0 +1,166 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("get-customers", {
+        category: "Shopify",
+        color: "#95BF47",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            ShopifyAuth: {
+                value: "",
+                type: "shopify-auth"
+            },
+            customerId: {
+                value: ""
+            },
+            payloadTypecustomerId: {
+                value: "str"
+            },
+            customerIdforOrders: {
+                value: ""
+            },
+            payloadTypecustomerIdforOrders: {
+                value: "str"
+            },
+            action: {
+                value: "getAllCustomers"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Customers"
+        },
+        paletteLabel: "Customers",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypecustomerId === null) {
+                if (this.customerId === "") {
+                    this.payloadTypecustomerId = "date"
+                } else {
+                    this.payloadTypecustomerId = "str"
+                }
+            } else if (this.payloadTypecustomerId === 'string' || this.payloadTypecustomerId === 'none') {
+                this.payloadTypecustomerId = "str"
+            }
+
+            $("#node-input-payloadTypecustomerId").val(this.payloadTypecustomerId)
+            $("#node-input-customerId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypecustomerId"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-customerId").typedInput("type", this.payloadTypecustomerId)
+
+            if (this.payloadTypecustomerIdforOrders === null) {
+                if (this.customerIdforOrders === "") {
+                    this.payloadTypecustomerIdforOrders = "date"
+                } else {
+                    this.payloadTypecustomerIdforOrders = "str"
+                }
+            } else if (this.payloadTypecustomerIdforOrders === 'string' || this.payloadTypecustomerIdforOrders === 'none') {
+                this.payloadTypecustomerIdforOrders = "str"
+            }
+
+            $("#node-input-payloadTypecustomerIdforOrders").val(this.payloadTypecustomerIdforOrders)
+            $("#node-input-customerIdforOrders").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypecustomerIdforOrders"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-customerIdforOrders").typedInput("type", this.payloadTypecustomerIdforOrders)
+
+
+            const actionFieldSetNames = ["getAllCustomers", "getById", "getOrdersByCustomerId"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="get-customers">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-ShopifyAuth">ShopifyAuth</label>
+        <input type="text" id="node-input-ShopifyAuth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-getAllCustomers" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-getById" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-customerId">customerId</label>
+            <input type="text" id="node-input-customerId"></input>
+            <input type="hidden" id="node-input-payloadTypecustomerId">
+        </div>
+    </div>
+
+    <div id="fieldset-getOrdersByCustomerId" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-customerIdforOrders">customerIdforOrders</label>
+            <input type="text" id="node-input-customerIdforOrders"></input>
+            <input type="hidden" id="node-input-payloadTypecustomerIdforOrders">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="get-customers">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

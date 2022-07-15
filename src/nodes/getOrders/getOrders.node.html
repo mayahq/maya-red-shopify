@@ -1,0 +1,202 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("get-orders", {
+        category: "Shopify",
+        color: "#95BF47",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            ShopifyAuth: {
+                value: "",
+                type: "shopify-auth"
+            },
+            orderId: {
+                value: ""
+            },
+            payloadTypeorderId: {
+                value: "str"
+            },
+            orderIdToDelete: {
+                value: ""
+            },
+            payloadTypeorderIdToDelete: {
+                value: "str"
+            },
+            orderIdForFulfillment: {
+                value: ""
+            },
+            payloadTypeorderIdForFulfillment: {
+                value: "str"
+            },
+            action: {
+                value: "getAllOrders"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Orders"
+        },
+        paletteLabel: "Orders",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeorderId === null) {
+                if (this.orderId === "") {
+                    this.payloadTypeorderId = "date"
+                } else {
+                    this.payloadTypeorderId = "str"
+                }
+            } else if (this.payloadTypeorderId === 'string' || this.payloadTypeorderId === 'none') {
+                this.payloadTypeorderId = "str"
+            }
+
+            $("#node-input-payloadTypeorderId").val(this.payloadTypeorderId)
+            $("#node-input-orderId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeorderId"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-orderId").typedInput("type", this.payloadTypeorderId)
+
+            if (this.payloadTypeorderIdToDelete === null) {
+                if (this.orderIdToDelete === "") {
+                    this.payloadTypeorderIdToDelete = "date"
+                } else {
+                    this.payloadTypeorderIdToDelete = "str"
+                }
+            } else if (this.payloadTypeorderIdToDelete === 'string' || this.payloadTypeorderIdToDelete === 'none') {
+                this.payloadTypeorderIdToDelete = "str"
+            }
+
+            $("#node-input-payloadTypeorderIdToDelete").val(this.payloadTypeorderIdToDelete)
+            $("#node-input-orderIdToDelete").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeorderIdToDelete"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-orderIdToDelete").typedInput("type", this.payloadTypeorderIdToDelete)
+
+            if (this.payloadTypeorderIdForFulfillment === null) {
+                if (this.orderIdForFulfillment === "") {
+                    this.payloadTypeorderIdForFulfillment = "date"
+                } else {
+                    this.payloadTypeorderIdForFulfillment = "str"
+                }
+            } else if (this.payloadTypeorderIdForFulfillment === 'string' || this.payloadTypeorderIdForFulfillment === 'none') {
+                this.payloadTypeorderIdForFulfillment = "str"
+            }
+
+            $("#node-input-payloadTypeorderIdForFulfillment").val(this.payloadTypeorderIdForFulfillment)
+            $("#node-input-orderIdForFulfillment").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeorderIdForFulfillment"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-orderIdForFulfillment").typedInput("type", this.payloadTypeorderIdForFulfillment)
+
+
+            const actionFieldSetNames = ["getAllOrders", "getAbandonedCheckouts", "getById", "deleteOrder", "getFulfillment"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="get-orders">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-ShopifyAuth">ShopifyAuth</label>
+        <input type="text" id="node-input-ShopifyAuth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-getAllOrders" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-getAbandonedCheckouts" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-getById" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-orderId">orderId</label>
+            <input type="text" id="node-input-orderId"></input>
+            <input type="hidden" id="node-input-payloadTypeorderId">
+        </div>
+    </div>
+
+    <div id="fieldset-deleteOrder" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-orderIdToDelete">orderIdToDelete</label>
+            <input type="text" id="node-input-orderIdToDelete"></input>
+            <input type="hidden" id="node-input-payloadTypeorderIdToDelete">
+        </div>
+    </div>
+
+    <div id="fieldset-getFulfillment" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-orderIdForFulfillment">orderIdForFulfillment</label>
+            <input type="text" id="node-input-orderIdForFulfillment"></input>
+            <input type="hidden" id="node-input-payloadTypeorderIdForFulfillment">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="get-orders">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

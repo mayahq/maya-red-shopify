@@ -1,0 +1,102 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("inventory", {
+        category: "Shopify",
+        color: "#95BF47",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            ShopifyAuth: {
+                value: "",
+                type: "shopify-auth"
+            },
+            inventoryItemId: {
+                value: ""
+            },
+            payloadTypeinventoryItemId: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Inventory"
+        },
+        paletteLabel: "Inventory",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeinventoryItemId === null) {
+                if (this.inventoryItemId === "") {
+                    this.payloadTypeinventoryItemId = "date"
+                } else {
+                    this.payloadTypeinventoryItemId = "str"
+                }
+            } else if (this.payloadTypeinventoryItemId === 'string' || this.payloadTypeinventoryItemId === 'none') {
+                this.payloadTypeinventoryItemId = "str"
+            }
+
+            $("#node-input-payloadTypeinventoryItemId").val(this.payloadTypeinventoryItemId)
+            $("#node-input-inventoryItemId").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypeinventoryItemId"),
+                types: ["msg", "str"]
+            })
+            $("#node-input-inventoryItemId").typedInput("type", this.payloadTypeinventoryItemId)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="inventory">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-ShopifyAuth">ShopifyAuth</label>
+        <input type="text" id="node-input-ShopifyAuth"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-inventoryItemId">inventoryItemId</label>
+        <input type="text" id="node-input-inventoryItemId"></input>
+        <input type="hidden" id="node-input-payloadTypeinventoryItemId">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="inventory">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>
