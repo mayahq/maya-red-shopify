@@ -48,6 +48,9 @@
     "repository": {
       "type": "git",
       "url": "git+.git"
+    },
+    "origin": {
+      "moduleId": "62d5617d94428c001f61c5c0"
     }
   }
 }
