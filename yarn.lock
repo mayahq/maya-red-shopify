@@ -36,10 +36,10 @@
     "lockfile" "^1.0.4"
     "mongoose" "^5.13.14"
 
-"@mayahq/module-sdk@^2.3.0":
-  "integrity" "sha512-PlKmtvuSfWIy7hnvs28Zwtkdl1QuAd3RlfzLrPrgpCnRSXhxY99U7Izn+3TNyD8RntF/+vL2SApGbGOoOAi+9g=="
-  "resolved" "https://registry.npmjs.org/@mayahq/module-sdk/-/module-sdk-2.3.0.tgz"
-  "version" "2.3.0"
+"@mayahq/module-sdk@^2.3.2":
+  "integrity" "sha512-ayFzqmAy6+O6m/sziHhkqmdQVsZjMDbnuaZybqUpo1qxkCkSMVVWu0oFfv8IpFBIW7/LrTKbiW5Z+uNQwxgOeg=="
+  "resolved" "https://registry.npmjs.org/@mayahq/module-sdk/-/module-sdk-2.3.2.tgz"
+  "version" "2.3.2"
   dependencies:
     "@mayahq/maya-db" "^0.0.14"
     "async-lock" "^1.3.0"
